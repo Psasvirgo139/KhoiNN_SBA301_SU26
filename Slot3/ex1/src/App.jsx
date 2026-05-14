@@ -42,7 +42,7 @@ function App() {
       </Container>
 
       {/* Carousel */}
-      <Container className="mt-4">
+      <Container className="mt-4" fade interval={2000}>
         <Carousel>
           {orchids.slice(0, 3).map((orchid, index) => (
             <Carousel.Item key={index}>
@@ -55,7 +55,6 @@ function App() {
 
               <Carousel.Caption>
                 <h3>{orchid.name}</h3>
-                <p>Category: {orchid.category}</p>
               </Carousel.Caption>
             </Carousel.Item>
           ))}
