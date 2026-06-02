@@ -1,0 +1,32 @@
+.register-container {
+    width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+  }
+  
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .register-form input {
+    width: 100%;
+    padding: 10px;
+  }
+  
+  .register-form button {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .error {
+    color: red;
+  }
+  
+  .success {
+    color: green;
+    font-weight: bold;
+  }

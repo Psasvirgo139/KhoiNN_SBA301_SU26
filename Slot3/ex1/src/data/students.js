@@ -1,5 +1,5 @@
 const student = {
-    id: "DE123456",
+    id: "DE190010",
     name: "KhoiNN",
     avatar: "./images/1.png"
   };

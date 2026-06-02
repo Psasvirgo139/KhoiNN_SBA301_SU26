@@ -1,9 +1,10 @@
 const orchids = [
     {
-      id: 1,
-      name: "Cymbidium",
-      category: "Orchid",
-      image: "images/8.jpg"
+      id: "1",
+      name: "Taichung beauty",
+      isSpecial: true,
+      image: "https://barritaorchids.com/cdn/shop/products/Cf592_1024x1024.jpg",
+      category: "Cattleya"
     },
     {
       id: 2,
