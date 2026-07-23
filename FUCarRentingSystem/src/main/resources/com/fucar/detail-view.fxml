@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="14" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.fucar.controller.DetailController"
+      prefWidth="320" prefHeight="260">
+    <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
+
+    <Label text="CHI TIẾT SINH VIÊN"
+           style="-fx-font-size:16px;-fx-font-weight:bold;-fx-text-fill:#1F4E79;"
+           maxWidth="Infinity" alignment="CENTER"/>
+
+    <GridPane hgap="12" vgap="10">
+        <Label text="Mã SV:"    GridPane.columnIndex="0" GridPane.rowIndex="0"
+               style="-fx-font-weight:bold;"/>
+        <Label fx:id="lblId"    GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Họ tên:"   GridPane.columnIndex="0" GridPane.rowIndex="1"
+               style="-fx-font-weight:bold;"/>
+        <Label fx:id="lblName"  GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label text="Điểm:"     GridPane.columnIndex="0" GridPane.rowIndex="2"
+               style="-fx-font-weight:bold;"/>
+        <Label fx:id="lblScore" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <Label text="Xếp loại:" GridPane.columnIndex="0" GridPane.rowIndex="3"
+               style="-fx-font-weight:bold;"/>
+        <Label fx:id="lblGrade" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+        <columnConstraints>
+            <ColumnConstraints minWidth="80"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+    </GridPane>
+
+    <Button text="Đóng" maxWidth="Infinity" onAction="#handleClose"
+            style="-fx-background-color:#757575;-fx-text-fill:white;-fx-cursor:hand;"/>
+</VBox>

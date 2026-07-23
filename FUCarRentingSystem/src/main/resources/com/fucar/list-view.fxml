@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.fucar.controller.ListController"
+      prefWidth="600" prefHeight="420">
+    <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+
+    <Label text="DANH SÁCH SINH VIÊN"
+           style="-fx-font-size:18px;-fx-font-weight:bold;-fx-text-fill:#1F4E79;"/>
+
+    <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colId"    text="Mã SV"    prefWidth="80"/>
+            <TableColumn fx:id="colName"  text="Họ tên"   prefWidth="200"/>
+            <TableColumn fx:id="colScore" text="Điểm"     prefWidth="80"/>
+            <TableColumn fx:id="colGrade" text="Xếp loại" prefWidth="120"/>
+        </columns>
+        <placeholder><Label text="Không có dữ liệu"/></placeholder>
+    </TableView>
+
+    <HBox spacing="8" alignment="CENTER_RIGHT">
+        <Button fx:id="btnDetail" text="Xem chi tiết"
+                onAction="#handleViewDetail" disable="true"
+                style="-fx-background-color:#1565C0;-fx-text-fill:white;-fx-cursor:hand;"/>
+        <Button text="Đóng" onAction="#handleClose"/>
+    </HBox>
+</VBox>

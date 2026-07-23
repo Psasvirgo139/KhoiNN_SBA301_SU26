@@ -1,0 +1,113 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "123",
+      "name": "Admin User",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "username": "user",
+      "password": "123",
+      "name": "Normal User",
+      "role": "user"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Casual"
+    },
+    {
+      "id": "2",
+      "name": "Fine Dining"
+    },
+    {
+      "id": "3",
+      "name": "Fast Food"
+    },
+    {
+      "id": "4",
+      "name": "Buffet"
+    },
+    {
+      "id": "5",
+      "name": "Cafe"
+    }
+  ],
+  "restaurants": [
+    {
+      "id": "1",
+      "name": "BBQ Restaurant",
+      "category": "Casual",
+      "owner": "Hoang Dang",
+      "address": "Hang Bai, Hoan Kiem",
+      "priceFrom": 1000,
+      "priceTo": 20000,
+      "openDate": "2025-01-20"
+    },
+    {
+      "id": "2",
+      "name": "Pho 24",
+      "category": "Fast Food",
+      "owner": "Nguyen Van A",
+      "address": "Le Loi, District 1, HCM",
+      "priceFrom": 35000,
+      "priceTo": 80000,
+      "openDate": "2024-06-15"
+    },
+    {
+      "id": "3",
+      "name": "The Gioi Hai San",
+      "category": "Casual",
+      "owner": "Tran Thi B",
+      "address": "Kim Ma, Ba Dinh, Ha Noi",
+      "priceFrom": 50000,
+      "priceTo": 300000,
+      "openDate": "2023-11-01"
+    },
+    {
+      "id": "4",
+      "name": "Golden Dragon",
+      "category": "Fine Dining",
+      "owner": "Le Van C",
+      "address": "Nguyen Hue, District 1, HCM",
+      "priceFrom": 200000,
+      "priceTo": 800000,
+      "openDate": "2024-02-14"
+    },
+    {
+      "id": "5",
+      "name": "Pho Thin",
+      "category": "Fast Food",
+      "owner": "Pham Thi D",
+      "address": "Dinh Tien Hoang, Hoan Kiem",
+      "priceFrom": 45000,
+      "priceTo": 75000,
+      "openDate": "2022-03-10"
+    },
+    {
+      "id": "6",
+      "name": "Cong Caphe",
+      "category": "Cafe",
+      "owner": "Hoang Van E",
+      "address": "Trieu Viet Vuong, Hai Ba Trung",
+      "priceFrom": 30000,
+      "priceTo": 65000,
+      "openDate": "2023-07-20"
+    },
+    {
+      "id": "7",
+      "name": "Nha Hang Ngon",
+      "category": "Buffet",
+      "owner": "Bui Thi F",
+      "address": "Phan Boi Chau, Hoan Kiem",
+      "priceFrom": 150000,
+      "priceTo": 250000,
+      "openDate": "2024-09-05"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

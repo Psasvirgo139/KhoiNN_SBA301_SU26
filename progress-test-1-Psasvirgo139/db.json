@@ -1,0 +1,9 @@
+{
+  "users": [
+    { "id": 1, "username": "admin",   "password": "123", "name": "Admin User",   "role": "admin", "status": "active" },
+    { "id": 2, "username": "traltb",    "password": "123", "name": "Admin User",  "role": "admin", "status": "active" },
+    { "id": 3, "username": "huy",   "password": "123", "name": "Huy Nguyen", "role": "user", "status": "active" },
+    { "id": 4, "username": "khoi",     "password": "123", "name": "Khoi Tran",     "role": "user", "status": "inactive" },
+    { "id": 5, "username": "manh", "password": "123", "name": "Manh Le",   "role": "user", "status": "active" }
+  ]
+}

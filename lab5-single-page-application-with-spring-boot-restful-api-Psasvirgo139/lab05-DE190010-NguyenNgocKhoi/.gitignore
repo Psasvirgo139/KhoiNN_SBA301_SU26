@@ -1,0 +1,17 @@
+# Java / Maven
+target/
+*.class
+*.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Node / React
+orchid-fe/node_modules/
+orchid-fe/dist/
+
+# Secrets — KHÔNG commit file này
+orchid-management/src/main/resources/application.properties
+orchid-fe/.env

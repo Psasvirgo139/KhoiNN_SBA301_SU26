@@ -1,0 +1,43 @@
+BÁO CÁO CÁC PHẦN THÊM MỚI VÀ SỬA ĐỔI
+Họ và tên / Mã sinh viên: Progress Test 2
+--------------------------------------------------------------------------------
+
+I. CÁC FILE THÊM MỚI (ADDED FILES)
+1. src/pages/AddCategoryPage.jsx
+   - Chi tiết: Tạo trang giao diện "Thêm mới Danh mục" với form nhập dữ liệu gồm ID và Tên danh mục.
+   - Lý do: Cung cấp giao diện để người dùng thêm danh mục mới, xử lý validation và hiển thị lỗi trực tiếp dưới từng ô nhập liệu. Sau khi thêm thành công, trang tự động điều hướng sang trang danh sách danh mục (/categories).
+
+2. src/pages/CategoryListPage.jsx
+   - Chi tiết: Tạo trang giao diện "Danh sách Danh mục" hiển thị dưới dạng bảng bao gồm các cột (#, ID, Tên danh mục, Hành động). Tích hợp sẵn bộ lọc tìm kiếm theo tên, phân trang (5 bản ghi/trang) sử dụng lại component Pagination, và Modal xác nhận xóa danh mục.
+   - Lý do: Đáp ứng yêu cầu có trang danh sách danh mục với giao diện tương tự như danh sách nhà hàng (Restaurant List).
+
+
+II. CÁC FILE SỬA ĐỔI (MODIFIED FILES)
+1. src/services/categoryService.js
+   - Chi tiết: Thêm 2 hàm `addCategory(categoryData)` và `deleteCategory(id)`.
+   - Lý do: Cung cấp các hàm API thao tác với dữ liệu danh mục (gửi POST và DELETE request tới JSON Server).
+
+2. src/utils/validators.js
+   - Chi tiết: Thêm các hàm `validateCategoryId(id, existingCategories)`, `validateCategoryName(name, existingCategories)` và hàm gộp `validateCategoryForm(formData, existingCategories)`.
+   - Quy tắc validation:
+     + ID không được trống, không được trùng lặp với các ID đã có.
+     + Tên không được trống, không được trùng lặp (không phân biệt hoa thường) với tên đã có, độ dài tối thiểu là 6 ký tự.
+   - Lý do: Tập trung hóa các logic kiểm tra dữ liệu của danh mục, hỗ trợ hiển thị lỗi inline chính xác trong form.
+
+3. src/components/LoginForm.jsx
+   - Chi tiết: Thay đổi đường dẫn điều hướng sau khi login thành công từ `/` (Restaurant List) sang `/categories/add` (Thêm danh mục).
+   - Lý do: Đáp ứng đúng yêu cầu của đề bài: "Sau khi người dùng login thành công sẽ chuyển đến trang Thêm danh mục."
+
+4. src/App.jsx
+   - Chi tiết: 
+     + Import và đăng ký 2 route mới: `/categories/add` (AddCategoryPage) và `/categories` (CategoryListPage) trong chế độ bảo vệ ProtectedRoute.
+     + Gọi hook `useAuth()` và hiển thị `<AppNavbar />` điều hướng động nếu người dùng đã đăng nhập (`state.isAuthenticated` là true).
+   - Lý do: Đảm bảo thanh điều hướng xuất hiện trên tất cả các trang nội bộ khi đăng nhập, và cấu hình định tuyến hệ thống chính xác.
+
+5. src/components/AppNavbar.jsx
+   - Chi tiết: Bổ sung các đường dẫn điều hướng (Restaurants, Categories, Add Category) sử dụng native `href` của React Bootstrap thay vì `Link` của React Router.
+   - Lý do: Giúp thanh điều hướng đầy đủ tính năng chuyển trang, đồng thời tránh việc ném lỗi router context thiếu `basename` khi chạy các file test unit độc lập của AppNavbar (vốn không được bọc trong Router context).
+
+6. src/__tests__/utils/validators.test.js
+   - Chi tiết: Viết thêm 9 bộ test cases kiểm thử đơn vị độc lập (unit tests) cho 3 hàm validate category vừa tạo.
+   - Lý do: Đảm bảo tính chính xác tuyệt đối của bộ lọc validation trước khi đưa vào chạy giao diện thực tế.

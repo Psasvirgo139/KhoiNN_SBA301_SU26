@@ -1,0 +1,24 @@
+# Application Settings
+spring.application.name=A3NguyenNgocKhoi_SBA301
+server.port=8080
+server.servlet.context-path=/api
+
+# Database Settings (Microsoft SQL Server)
+spring.datasource.url=jdbc:sqlserver://localhost:1433;databaseName=A3NguyenNgocKhoi_SBA301;encrypt=true;trustServerCertificate=true;characterEncoding=UTF-8;
+spring.datasource.username=sa
+spring.datasource.password=your_password
+spring.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+# JPA Settings
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.SQLServerDialect
+
+# Staff Account Credentials (Pre-configured admin accounts)
+app.staff.email=staff@company.com
+app.staff.password=staff123
+
+# Security & JWT Details
+app.jwt.secret=J74gu2o2hm7qhq02C4DoiUbZyPQlcJKWLdH7xick43278947289
+app.jwt.expiration-ms=86400000

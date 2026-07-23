@@ -1,0 +1,634 @@
+{
+  "info": {
+    "name": "A2 FUNewsManagement - SBA301",
+    "description": "Kiem thu RESTful API Assignment 02. Import them environment co bien baseUrl = http://localhost:8080/api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080/api" }
+  ],
+  "item": [
+    {
+      "name": "1. Auth",
+      "item": [
+        {
+          "name": "Login - success (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Tra ve account info, khong lo password', () => {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body).to.have.property('accountId');",
+                  "    pm.expect(body).to.have.property('accountRole');",
+                  "    pm.expect(body).to.not.have.property('accountPassword');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"EmmaWilliam@FUNewsManagement.org\",\n  \"password\": \"@1\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Login - wrong password (401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Status 401', () => pm.response.to.have.status(401));"],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"EmmaWilliam@FUNewsManagement.org\",\n  \"password\": \"wrong\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Login - invalid email format (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Status 400 validation', () => pm.response.to.have.status(400));"],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"not-an-email\",\n  \"password\": \"@1\"\n}" },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Accounts (Admin)",
+      "item": [
+        {
+          "name": "Get all accounts (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Tra ve mang', () => pm.expect(pm.response.json()).to.be.an('array'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/accounts", "host": ["{{baseUrl}}"], "path": ["accounts"] }
+          }
+        },
+        {
+          "name": "Create account (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Dung du lieu da gui', () => {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body.accountId).to.eql(99);",
+                  "    pm.expect(body.accountEmail).to.eql('test99@fu.edu.vn');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountId\": 99,\n  \"accountName\": \"Test User\",\n  \"accountEmail\": \"test99@fu.edu.vn\",\n  \"accountRole\": 2,\n  \"accountPassword\": \"@1\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/accounts", "host": ["{{baseUrl}}"], "path": ["accounts"] }
+          }
+        },
+        {
+          "name": "Create account - duplicate id (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Status 409', () => pm.response.to.have.status(409));"],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountId\": 99,\n  \"accountName\": \"Test User\",\n  \"accountEmail\": \"other@fu.edu.vn\",\n  \"accountRole\": 2,\n  \"accountPassword\": \"@1\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/accounts", "host": ["{{baseUrl}}"], "path": ["accounts"] }
+          }
+        },
+        {
+          "name": "Create account - missing fields (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                  "pm.test('Message chua loi tung field', () => {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body.message).to.be.an('object');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"accountName\": \"\"\n}" },
+            "url": { "raw": "{{baseUrl}}/accounts", "host": ["{{baseUrl}}"], "path": ["accounts"] }
+          }
+        },
+        {
+          "name": "Search accounts (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/accounts/search?q=emma",
+              "host": ["{{baseUrl}}"],
+              "path": ["accounts", "search"],
+              "query": [{ "key": "q", "value": "emma" }]
+            }
+          }
+        },
+        {
+          "name": "Update account (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Ten da doi', () => pm.expect(pm.response.json().accountName).to.eql('Test User Updated'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountId\": 99,\n  \"accountName\": \"Test User Updated\",\n  \"accountEmail\": \"test99@fu.edu.vn\",\n  \"accountRole\": 2,\n  \"accountPassword\": \"@1\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/accounts/99", "host": ["{{baseUrl}}"], "path": ["accounts", "99"] }
+          }
+        },
+        {
+          "name": "Delete account - has articles (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Status 409 - account da tao bai viet', () => pm.response.to.have.status(409));"],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/accounts/1", "host": ["{{baseUrl}}"], "path": ["accounts", "1"] }
+          }
+        },
+        {
+          "name": "Delete account - no articles (204)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Status 204', () => pm.response.to.have.status(204));"],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/accounts/99", "host": ["{{baseUrl}}"], "path": ["accounts", "99"] }
+          }
+        },
+        {
+          "name": "Get account - not found (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Status 404', () => pm.response.to.have.status(404));"],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/accounts/9999", "host": ["{{baseUrl}}"], "path": ["accounts", "9999"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Categories (Staff)",
+      "item": [
+        {
+          "name": "Get all categories (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/categories", "host": ["{{baseUrl}}"], "path": ["categories"] }
+          }
+        },
+        {
+          "name": "Create category (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "const body = pm.response.json();",
+                  "pm.collectionVariables.set('newCategoryId', body.categoryId);",
+                  "pm.test('Co categoryId tu sinh', () => pm.expect(body.categoryId).to.be.a('number'));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryName\": \"Test Category\",\n  \"categoryDescription\": \"Category for Postman testing\",\n  \"parentCategoryId\": null,\n  \"isActive\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/categories", "host": ["{{baseUrl}}"], "path": ["categories"] }
+          }
+        },
+        {
+          "name": "Create category - blank name (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Status 400', () => pm.response.to.have.status(400));"],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryName\": \"\",\n  \"categoryDescription\": \"x\",\n  \"isActive\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/categories", "host": ["{{baseUrl}}"], "path": ["categories"] }
+          }
+        },
+        {
+          "name": "Search categories (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/categories/search?q=news",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", "search"],
+              "query": [{ "key": "q", "value": "news" }]
+            }
+          }
+        },
+        {
+          "name": "Update category (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryName\": \"Test Category Updated\",\n  \"categoryDescription\": \"Updated description\",\n  \"parentCategoryId\": null,\n  \"isActive\": false\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/categories/{{newCategoryId}}", "host": ["{{baseUrl}}"], "path": ["categories", "{{newCategoryId}}"] }
+          }
+        },
+        {
+          "name": "Delete category - in use (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Status 409 - category dang duoc dung', () => pm.response.to.have.status(409));"],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/categories/1", "host": ["{{baseUrl}}"], "path": ["categories", "1"] }
+          }
+        },
+        {
+          "name": "Delete category - unused (204)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Status 204', () => pm.response.to.have.status(204));"],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/categories/{{newCategoryId}}", "host": ["{{baseUrl}}"], "path": ["categories", "{{newCategoryId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. News Articles (Staff)",
+      "item": [
+        {
+          "name": "Get public news - no auth (200, only active)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Tat ca tin deu active', () => {",
+                  "    pm.response.json().forEach(n => pm.expect(n.newsStatus).to.be.true);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/news/public", "host": ["{{baseUrl}}"], "path": ["news", "public"] }
+          }
+        },
+        {
+          "name": "Get all news (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/news", "host": ["{{baseUrl}}"], "path": ["news"] }
+          }
+        },
+        {
+          "name": "Create news with tags (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Co du 2 tags va createdDate', () => {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body.tags).to.have.lengthOf(2);",
+                  "    pm.expect(body.createdDate).to.not.be.null;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newsArticleId\": \"PM-01\",\n  \"newsTitle\": \"Postman Test Article\",\n  \"headline\": \"Created from Postman\",\n  \"newsContent\": \"Content for testing the create endpoint.\",\n  \"newsSource\": \"Postman\",\n  \"categoryId\": 1,\n  \"newsStatus\": true,\n  \"createdById\": 1,\n  \"tagIds\": [1, 2]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/news", "host": ["{{baseUrl}}"], "path": ["news"] }
+          }
+        },
+        {
+          "name": "Create news - missing headline (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Status 400', () => pm.response.to.have.status(400));"],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newsArticleId\": \"PM-02\",\n  \"categoryId\": 1,\n  \"newsStatus\": true,\n  \"createdById\": 1\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/news", "host": ["{{baseUrl}}"], "path": ["news"] }
+          }
+        },
+        {
+          "name": "Search news (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/news/search?q=alumni",
+              "host": ["{{baseUrl}}"],
+              "path": ["news", "search"],
+              "query": [{ "key": "q", "value": "alumni" }]
+            }
+          }
+        },
+        {
+          "name": "Get news history of staff (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Tat ca tin do dung 1 nguoi tao', () => {",
+                  "    pm.response.json().forEach(n => pm.expect(n.createdById).to.eql(1));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/news/history/1", "host": ["{{baseUrl}}"], "path": ["news", "history", "1"] }
+          }
+        },
+        {
+          "name": "Update news - change tags (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Tags va modifiedDate cap nhat', () => {",
+                  "    const body = pm.response.json();",
+                  "    pm.expect(body.tags).to.have.lengthOf(1);",
+                  "    pm.expect(body.modifiedDate).to.not.be.null;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newsArticleId\": \"PM-01\",\n  \"newsTitle\": \"Postman Test Article Updated\",\n  \"headline\": \"Updated from Postman\",\n  \"newsContent\": \"Updated content.\",\n  \"newsSource\": \"Postman\",\n  \"categoryId\": 2,\n  \"newsStatus\": false,\n  \"createdById\": 2,\n  \"tagIds\": [3]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/news/PM-01", "host": ["{{baseUrl}}"], "path": ["news", "PM-01"] }
+          }
+        },
+        {
+          "name": "Delete news (204)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Status 204', () => pm.response.to.have.status(204));"],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/news/PM-01", "host": ["{{baseUrl}}"], "path": ["news", "PM-01"] }
+          }
+        },
+        {
+          "name": "Get news - not found (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test('Status 404', () => pm.response.to.have.status(404));"],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/news/NOT-EXIST", "host": ["{{baseUrl}}"], "path": ["news", "NOT-EXIST"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Tags",
+      "item": [
+        {
+          "name": "Get all tags (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Co 9 tags mau', () => pm.expect(pm.response.json().length).to.be.at.least(1));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/tags", "host": ["{{baseUrl}}"], "path": ["tags"] }
+          }
+        }
+      ]
+    }
+  ]
+}

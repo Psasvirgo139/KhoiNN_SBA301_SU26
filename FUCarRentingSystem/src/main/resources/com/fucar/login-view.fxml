@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.fucar.controller.LoginController"
+            style="-fx-background-color: #1A237E;"
+            prefWidth="500" prefHeight="400">
+
+    <VBox style="-fx-background-color: white; -fx-background-radius: 10;
+                 -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.3),20,0,0,5);"
+          prefWidth="380" spacing="14"
+          AnchorPane.topAnchor="50" AnchorPane.bottomAnchor="50"
+          AnchorPane.leftAnchor="60" AnchorPane.rightAnchor="60">
+        <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
+
+        <Label text="ĐĂNG NHẬP HỆ THỐNG"
+               style="-fx-font-size:20px;-fx-font-weight:bold;-fx-text-fill:#1F4E79;"
+               maxWidth="Infinity" alignment="CENTER"/>
+        <Label text="FUCarRentingSystem"
+               style="-fx-font-size:13px;-fx-text-fill:#757575;"
+               maxWidth="Infinity" alignment="CENTER"/>
+
+        <Label text="Tên tài khoản:"/>
+        <TextField fx:id="accountNameField" promptText="Nhập tên tài khoản"/>
+
+        <Label text="Mật khẩu:"/>
+        <PasswordField fx:id="passwordField" promptText="Nhập mật khẩu"/>
+        <TextField fx:id="passwordVisible" promptText="Nhập mật khẩu"
+                   managed="false" visible="false"/>
+
+        <CheckBox fx:id="showPasswordCheck" text="Hiện mật khẩu"
+                  onAction="#handleShowPassword"/>
+
+        <Button fx:id="loginBtn" text="ĐĂNG NHẬP"
+                maxWidth="Infinity" defaultButton="true"
+                onAction="#handleLogin"
+                style="-fx-background-color:#1565C0;-fx-text-fill:white;
+                       -fx-font-weight:bold;-fx-font-size:14px;-fx-cursor:hand;"/>
+
+        <Hyperlink text="Quên mật khẩu?" onAction="#handleForgotPassword"
+                   style="-fx-text-fill:#1565C0;" alignment="CENTER_RIGHT"
+                   maxWidth="Infinity"/>
+
+        <Label fx:id="lblError" wrapText="true"
+               style="-fx-text-fill:red;-fx-font-size:12px;"/>
+    </VBox>
+</AnchorPane>
